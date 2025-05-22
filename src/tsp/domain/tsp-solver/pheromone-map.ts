@@ -30,7 +30,21 @@ export class PheromoneMap{
         return pheromones;
     }
 
-    public update(from: string, to: string, delta: number): void{
+    public update(path: string[], delta: number): void{
+        let previous = "";
+        let actual: string;
+        for (const city of path) {
+            if (previous === "") {
+                previous = city;
+                continue;
+            }
+            actual = city;
+            this.updateEdge(previous, actual, delta);
+            previous = actual;
+        }
+    }
+
+    private updateEdge(from: string, to: string, delta: number): void{
         const key1 = this.getKey(from, to);
         const key2 = this.getKey(to, from);
 
