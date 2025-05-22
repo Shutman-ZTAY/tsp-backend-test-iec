@@ -18,7 +18,7 @@ export class TspSolver {
         private numAnts = 300,
         private alpha = 1,          // Importance of pheromones
         private beta = 5,           // Importance of visibility
-        private evaporationRate = 1,
+        private evaporationRate = 0.2,
         private q = 100
     ) {
         this.pheromoneMap = new PheromoneMap(data);
