@@ -5,6 +5,7 @@ import { TspDistanceResponseDto, TspGenerateCitiesResponseDto } from './dtos/res
 import { WorldGenerator } from './domain/world-generator/world-generator';
 import { TspGenerateCitiesRequestDto } from './dtos/request/generate-cities.request.dto';
 import { City } from './domain/world-generator/city';
+import { TspSolver } from './domain/tsp-solver/tsp-solver';
 
 /**
  * The TspService class is a NestJS service responsible for implementing the
@@ -14,13 +15,8 @@ import { City } from './domain/world-generator/city';
 @Injectable()
 export class TspService {
     solve(payload: TspSolveRequestDto): TspSolveResponseDto {
-        void payload;
-        throw new NotImplementedException(
-            `${this.solve.name} method not implemented in ${TspService.name}`,
-        );
-
-        // To do
-        // - Implement TSP solver
+        const optimizer = new TspSolver(payload);
+        return optimizer.solve();
     }
 
     generateCities(
@@ -32,15 +28,7 @@ export class TspService {
         });
 
         worldGenerator.generateCities();
-
-        // To do
-        // - Calculate distance between cities
-        /*
-        throw new NotImplementedException(
-            `${this.generateCities.name} method not implemented in ${TspService.name}`,
-        );
-        */
-       return this.calculateDistances(worldGenerator.getWorld().cities);
+        return this.calculateDistances(worldGenerator.getWorld().cities);
     }
 
     private calculateDistances(cities: City[]): TspGenerateCitiesResponseDto {
