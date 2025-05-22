@@ -253,10 +253,10 @@ describe("Ant Colony Optimizer", () => {
     });
 
     it("should improve the best solution over 50 iterations", () => {
-        const optimizer = new TspSolver(tspMockData, 5);
+        const optimizer = new TspSolver(tspMockData, 1);
         const bestDistances: number[] = [];
     
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 50; i++) {
             const distanceIteration = optimizer.solve().totalDistance;
             if (i === 0 || distanceIteration <= bestDistances[i - 1]) {
                 bestDistances.push(distanceIteration);  
@@ -264,8 +264,8 @@ describe("Ant Colony Optimizer", () => {
                 bestDistances.push(bestDistances[i - 1]);
             }
         }
-        const firstHalf = bestDistances.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
-        const secondHalf = bestDistances.slice(5).reduce((a, b) => a + b, 0) / 5;
+        const firstHalf = bestDistances.slice(0, 25).reduce((a, b) => a + b, 0) / 5;
+        const secondHalf = bestDistances.slice(25).reduce((a, b) => a + b, 0) / 5;
     
         expect(secondHalf).toBeLessThanOrEqual(firstHalf);
     });
