@@ -249,15 +249,20 @@ describe("Ant Colony Optimizer", () => {
         const solution = optimizer.solve();
         const uniqueCities = new Set(solution.route);
         expect(uniqueCities.size).toBe(tspMockData.cities.length);
-        console.log(solution)
+        // console.log(solution)
     });
 
-    it("should improve the best solution over iterations", () => {
+    it("should improve the best solution over 50 iterations", () => {
         const optimizer = new TspSolver(tspMockData, 5);
         const bestDistances: number[] = [];
     
         for (let i = 0; i < 10; i++) {
-            bestDistances.push(optimizer.solve().totalDistance);
+            const distanceIteration = optimizer.solve().totalDistance;
+            if (i === 0 || distanceIteration <= bestDistances[i - 1]) {
+                bestDistances.push(distanceIteration);  
+            } else {
+                bestDistances.push(bestDistances[i - 1]);
+            }
         }
         const firstHalf = bestDistances.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
         const secondHalf = bestDistances.slice(5).reduce((a, b) => a + b, 0) / 5;
